@@ -1,7 +1,9 @@
 # Chess Via Pygame
 ## Overview
 
-    This project is a simple chessboard implementation using Pygame, a popular Python library for game development. It features a fully interactive chessboard where pieces can be selected and moved to            different tiles. The board alternates colors between grey and cement, creating a classic chessboard look.
+    This project is a simple chessboard implementation using Pygame, a popular Python library for game development. 
+    It features a fully interactive chessboard where pieces can be selected and moved to different tiles. 
+    The board alternates colors between grey and cement, creating a classic chessboard look.
     
     Features -
     Interactive Chess Pieces: Click on a piece to select it, then click on another tile to move it.
