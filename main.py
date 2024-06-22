@@ -5,16 +5,15 @@ pygame.init()
 # Colors and constants
 GREY = (60, 60, 60)
 CEMENT = (190, 190, 190)
+HIGHLIGHT = (37, 78, 112)  # Gold color for selected tile
 HEIGHT = 1000
 WIDTH = 1300
 SQUARE_SIZE = 110
 ROWS = 8
 COLS = 8
-x_of_grids = 60
-y_of_grids = 60
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption('Initial Window Title')
+pygame.display.set_caption('Chessboard Game')
 
 # Define the 3D array for the chessboard
 chessboard = [
@@ -79,9 +78,16 @@ class Square:
     def __init__(self, x, y, size, color):
         self.rect = pygame.Rect(x, y, size, size)
         self.color = color
+        self.default_color = color
 
     def draw(self, surface):
         pygame.draw.rect(surface, self.color, self.rect)
+
+    def highlight(self):
+        self.color = HIGHLIGHT
+
+    def reset_color(self):
+        self.color = self.default_color
 
 # Create squares
 squares = []
@@ -98,6 +104,7 @@ for row in range(ROWS):
 # Game loop variables
 selected_piece = None
 running = True
+clock = pygame.time.Clock()
 
 # Main game loop
 while running:
@@ -114,11 +121,17 @@ while running:
                     if piece != 0:
                         selected_piece = (row, col, piece)
                         chessboard[row][col] = [0]  # Temporarily remove the piece from the board
+                        squares[row][col].highlight()  # Highlight the selected tile
                 else:
                     # Move the selected piece
                     new_row, new_col = row, col
                     chessboard[new_row][new_col] = [selected_piece[2]]
                     selected_piece = None
+
+                    # Reset the board colors
+                    for r in range(ROWS):
+                        for c in range(COLS):
+                            squares[r][c].reset_color()
 
                     # Update the sprite positions
                     chess_piece_group.empty()
@@ -142,6 +155,9 @@ while running:
     chess_piece_group.update()
     chess_piece_group.draw(screen)
 
+    clock.tick(60)  
+    fps = int(clock.get_fps())
+    pygame.display.set_caption(f"{fps}")
     pygame.display.update()
 
 pygame.quit()
